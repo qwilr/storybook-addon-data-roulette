@@ -1,0 +1,11 @@
+export declare const PARAM_KEY = "data-roulette";
+export declare const ADDON_ID = "qwilr/data-roulette";
+export declare const PANEL_ID: string;
+export declare const TOOL_ID: string;
+export declare const SPIN: string;
+export declare const RESET: string;
+export declare const SET_LOADING: string;
+export declare const REFETCH: string;
+export declare const SET_ITEMS: string;
+export declare const SET_ERROR: string;
+export declare const SET_SHEET: string;
