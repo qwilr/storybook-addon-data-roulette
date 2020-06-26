@@ -17,7 +17,7 @@ export default class DataRouletteStore {
   hasSpun = false;
   isLoading = true;
   initialized = false;
-  addonParams: IAddonParams = { apiKey: '', sheetUrl: '' };
+  addonParams: IAddonParams = { sheetUrl: '' };
   error = '';
 
   initialize(parameters: IAddonParams, channel: any) {

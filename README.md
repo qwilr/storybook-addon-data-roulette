@@ -21,7 +21,6 @@ import { withDataRoulette } from 'storybook-addon-data-roulette';
 addDecorator(withDataRoulette);
 addParamters({
   'data-roulette': {
-    apiKey: 'YOUR_GOOGLE_SHEETS_API_KEY',
     sheetUrl: 'https://docs.google.com/spreadsheets/d/YOUR_SHEET',
   }
 });
@@ -35,7 +34,6 @@ export default {
   decorators: [withDataRoulette],
   parameters: {
     'data-roulette': {
-      apiKey: 'YOUR_GOOGLE_SHEETS_API_KEY',
       sheetUrl: 'https://docs.google.com/spreadsheets/d/YOUR_SHEET'
     }
   },
@@ -57,15 +55,6 @@ export const default = () => (
 SPIN THE WHEEL
 
 ## Development
-
-You'll need to [generate an api key](https://developers.google.com/sheets/api/guides/authorizing#APIKey). Save `google-sheets-config.json` in the root directory. This needs to contain:
-
-```
-{
-  "apiKey": "YOUR_API_KEY",
-  ...
-}
-```
 
 Install dependencies
 

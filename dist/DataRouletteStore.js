@@ -58,7 +58,7 @@ var DataRouletteStore = /** @class */ (function () {
         this.hasSpun = false;
         this.isLoading = true;
         this.initialized = false;
-        this.addonParams = { apiKey: '', sheetUrl: '' };
+        this.addonParams = { sheetUrl: '' };
         this.error = '';
     }
     DataRouletteStore.prototype.initialize = function (parameters, channel) {

@@ -5,7 +5,6 @@ import { PARAM_KEY } from './constants';
 export { dataRoulette } from './registerDataRoulette';
 
 export interface IAddonParams {
-  apiKey: string;
   sheetUrl: string;
 }
 
