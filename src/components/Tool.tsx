@@ -8,7 +8,7 @@ import RouletteIcon from "./RouletteIcon";
 
 const Tool: FC = () => {
   const [addonState, setAddonState] = useAddonState(ADDON_ID, initialState);
-  const { spinIndex, items } = addonState;
+  const { spinIndex, items, loading, error } = addonState;
   const emit = useAddonChannelEvents(addonState, setAddonState);
 
   const hasItems = !!Object.keys(items?.data || {}).length;
@@ -27,7 +27,7 @@ const Tool: FC = () => {
       aria-label={label}
       title={label}
       onClick={handleSpin}
-      disabled={!hasItems}
+      disabled={!hasItems || loading || error}
     >
       <RouletteIcon style={{ transform: `rotate(${spinIndex * 90}deg)` }} size="small" />
     </ToolButton>

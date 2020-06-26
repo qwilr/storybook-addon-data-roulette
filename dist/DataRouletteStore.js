@@ -45,8 +45,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { fetchSheetData } from './utils/sheets';
 import { SET_LOADING, SET_ERROR, SET_SHEET } from './constants';
+var API_URL = 'https://1w4z19fmx9.execute-api.us-east-1.amazonaws.com/dev/getSheetData';
 var callArg = function (fn) { return fn(); };
 var callAll = function (fns) { return fns.forEach(callArg); };
 var DataRouletteStore = /** @class */ (function () {
@@ -86,14 +86,24 @@ var DataRouletteStore = /** @class */ (function () {
     };
     DataRouletteStore.prototype.fetchData = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var sheetUrl, requestUrl, response, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.isLoading = true;
                         this.channel.emit(SET_LOADING, true);
-                        return [4 /*yield*/, fetchSheetData(this.addonParams)];
+                        sheetUrl = this.addonParams.sheetUrl;
+                        requestUrl = API_URL + "?sheetUrl=" + sheetUrl;
+                        return [4 /*yield*/, fetch(requestUrl, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                }
+                            })];
                     case 1:
+                        response = _a.sent();
+                        return [4 /*yield*/, response.json()];
+                    case 2:
                         data = _a.sent();
                         this.data = data;
                         if (!data) {

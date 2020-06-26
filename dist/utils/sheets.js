@@ -34,85 +34,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/';
-var PERMISSION_DENIED = 'PERMISSION_DENIED';
+var API_URL = 'https://1w4z19fmx9.execute-api.us-east-1.amazonaws.com/dev/getSheetData';
 export function fetchSheetData(parameters) {
-    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var sheetUrl, apiKey, sheetId, sheetDetails, sheetTitles_1, requestUrls, responses, sheetDatasets, formattedData, error_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var sheetUrl, requestUrl, response, data, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    sheetUrl = parameters.sheetUrl, apiKey = parameters.apiKey;
-                    sheetId = sheetUrlToId(sheetUrl);
-                    _b.label = 1;
+                    sheetUrl = parameters.sheetUrl;
+                    _a.label = 1;
                 case 1:
-                    _b.trys.push([1, 6, , 7]);
-                    return [4 /*yield*/, fetch("" + API_URL + sheetId + "?key=" + apiKey)];
-                case 2: return [4 /*yield*/, (_b.sent()).json()];
+                    _a.trys.push([1, 4, , 5]);
+                    requestUrl = API_URL + "?sheetUrl=" + sheetUrl;
+                    return [4 /*yield*/, fetch(requestUrl, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        })];
+                case 2:
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
                 case 3:
-                    sheetDetails = _b.sent();
-                    if (((_a = sheetDetails === null || sheetDetails === void 0 ? void 0 : sheetDetails.error) === null || _a === void 0 ? void 0 : _a.status) === PERMISSION_DENIED) {
-                        throw new Error(PERMISSION_DENIED);
-                    }
-                    sheetTitles_1 = sheetDetails.sheets.map(function (sheet) { return sheet.properties.title; });
-                    requestUrls = sheetTitles_1.map(function (sheet) {
-                        var ranges = "&ranges=" + sheet + "&majorDimension=ROWS";
-                        var requestUrl = "" + API_URL + sheetId + "/values:batchGet?key=" + apiKey + ranges;
-                        return fetch(requestUrl);
-                    });
-                    return [4 /*yield*/, Promise.all(requestUrls)];
+                    data = _a.sent();
+                    return [2 /*return*/, data];
                 case 4:
-                    responses = _b.sent();
-                    return [4 /*yield*/, Promise.all(responses.map(function (response) { return response.json(); }))];
-                case 5:
-                    sheetDatasets = _b.sent();
-                    formattedData = sheetDatasets.reduce(function (acc, curr, index) {
-                        var sheetKey = sheetTitles_1[index];
-                        acc[sheetKey] = formatSheetRowsByColumn(curr);
-                        return acc;
-                    }, {});
-                    return [2 /*return*/, formattedData];
-                case 6:
-                    error_1 = _b.sent();
-                    if (error_1.message === PERMISSION_DENIED) {
-                        console.error('Please set your Sheet URL to public under Share');
-                    }
-                    else {
-                        console.error('Please enter a valid public Google Sheets URL');
-                    }
+                    error_1 = _a.sent();
+                    console.error(error_1);
                     return [2 /*return*/, null];
-                case 7: return [2 /*return*/];
+                case 5: return [2 /*return*/];
             }
         });
     });
-}
-// Format rows into objects using column headers as keys for each value
-export function formatSheetRowsByColumn(data) {
-    var values = data.valueRanges[0].values;
-    var keys = values === null || values === void 0 ? void 0 : values.shift();
-    return values === null || values === void 0 ? void 0 : values.map(function (value) {
-        return keys.reduce(function (acc, curr, index) {
-            acc[curr] = value[index];
-            return acc;
-        }, {});
-    });
-}
-// Grab the sheet id from the url string
-export function sheetUrlToId(url) {
-    if (!(url === null || url === void 0 ? void 0 : url.includes('://')))
-        return null;
-    try {
-        var urlObj = new URL(url);
-        var id = urlObj.pathname
-            .replace('/spreadsheets/d/', '')
-            .replace('/edit', '')
-            .replace('/', '');
-        return id;
-    }
-    catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
-        return null;
-    }
 }

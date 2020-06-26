@@ -33,16 +33,21 @@ interface ISheetValues {
  * Fetch and format Google Sheets data from a public url
  */
 export const handler = async (event: APIGatewayEvent): Promise<any> => {
-  console.log('EVENT', event);
+  console.log('the event:', event);
+  console.log('url here?', event.queryStringParameters?.sheetUrl);
   // Grab the text parameter.
-  console.log(event.pathParameters)
-  const sheetId = sheetUrlToId(event.pathParameters?.sheetUrl || '');
+  const sheetId = sheetUrlToId(event.queryStringParameters?.sheetUrl || '');
+
+  console.log({ sheetId });
 
   try {
+    console.log('fetching');
     // Get a list of sheets from the spreadsheet
     const sheetDetails: ISheetResponse = await (
       await fetch(`${API_URL}${sheetId}?key=${apiKey}`)
     ).json();
+
+    console.log({ sheetDetails });
 
     if (sheetDetails?.error?.status === PERMISSION_DENIED) {
       throw new Error(PERMISSION_DENIED);
@@ -64,6 +69,8 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
       responses.map((response) => response.json())
     );
 
+    console.log({ sheetDatasets });
+
     // Merge sheet data into an object
     const formattedData = sheetDatasets.reduce((acc, curr, index) => {
       const sheetKey = sheetTitles[index];
@@ -73,19 +80,24 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
 
     return {
       statusCode: 200,
-      body: { data: formattedData },
+      headers: {
+        "Access-Control-Allow-Headers" : "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET"
+      },
+      body: JSON.stringify(formattedData),
     };
   } catch (error) {
     if (error.message === PERMISSION_DENIED) {
       const msg = 'Please set your Sheet URL to public under Share';
-      console.error(msg);
+      console.log(msg);
       return {
         statusCode: 401,
         body: msg,
       };
     } else {
       const msg = 'Please enter a valid public Google Sheets URL';
-      console.error(msg);
+      console.log(msg);
       return {
         statusCode: 401,
         body: msg,
@@ -110,6 +122,7 @@ function formatSheetRowsByColumn(
 
 // Grab the sheet id from the url string
 function sheetUrlToId(urlValue: string) {
+  console.log({ urlValue });
   if (!urlValue?.includes('://')) return null;
 
   try {
@@ -120,7 +133,7 @@ function sheetUrlToId(urlValue: string) {
       .replace('/', '');
     return id;
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return null;
   }
 }

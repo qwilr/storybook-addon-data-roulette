@@ -1,6 +1,7 @@
-import { fetchSheetData } from './utils/sheets';
 import { IAddonParams } from './index';
 import { SET_LOADING, SET_ERROR, SET_SHEET } from './constants';
+
+const API_URL = 'https://1w4z19fmx9.execute-api.us-east-1.amazonaws.com/dev/getSheetData';
 
 type Callback = () => any;
 
@@ -50,7 +51,17 @@ export default class DataRouletteStore {
     this.isLoading = true;
     this.channel.emit(SET_LOADING, true);
 
-    const data = await fetchSheetData(this.addonParams);
+    const { sheetUrl } = this.addonParams;
+    const requestUrl = `${API_URL}?sheetUrl=${sheetUrl}`;
+
+    const response = await fetch(requestUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    const data = await response.json();
     this.data = data;
 
     if (!data) {
