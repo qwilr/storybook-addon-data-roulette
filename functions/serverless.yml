@@ -1,0 +1,15 @@
+service: data-roulette
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+
+functions:
+  getSheetData:
+    handler: dist/getSheetData.handler
+    events:
+      - http:
+          path: getSheetData
+          method: GET
+          cors: true

@@ -7,7 +7,6 @@ import Tool from './components/Tool';
 // Register the addon with a unique name.
 addons.register(ADDON_ID, (api: any) => {
   // Also need to set a unique name to the panel.
-  console.log(types)
   addons.add(PANEL_ID, {
     title: 'Data Roulette',
     paramKey: PARAM_KEY,
