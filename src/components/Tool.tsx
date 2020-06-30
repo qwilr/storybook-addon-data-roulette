@@ -13,8 +13,6 @@ const Tool: FC = () => {
 
   const hasItems = !!Object.keys(items?.data || {}).length;
 
-  console.log(items)
-
   const label = 'Spin data roulette';
 
   const handleSpin = () => {

@@ -25,7 +25,6 @@ var Tool = function () {
     var spinIndex = addonState.spinIndex, items = addonState.items, loading = addonState.loading, error = addonState.error;
     var emit = useAddonChannelEvents(addonState, setAddonState);
     var hasItems = !!Object.keys((items === null || items === void 0 ? void 0 : items.data) || {}).length;
-    console.log(items);
     var label = 'Spin data roulette';
     var handleSpin = function () {
         emit(SPIN);

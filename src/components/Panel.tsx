@@ -92,7 +92,6 @@ export function useAddonChannelEvents(addonState: any, setAddonState: (state: an
   const emit = useChannel({
     [SET_ITEMS]: (items: any[]) => {
       setAddonState({ ...addonState, items });
-      console.log('setit', items);
     },
     [SET_LOADING]: (loading: boolean) => {
       setAddonState({ ...addonState, loading });

@@ -67,7 +67,6 @@ export function useAddonChannelEvents(addonState, setAddonState) {
     var emit = useChannel((_a = {},
         _a[SET_ITEMS] = function (items) {
             setAddonState(__assign(__assign({}, addonState), { items: items }));
-            console.log('setit', items);
         },
         _a[SET_LOADING] = function (loading) {
             setAddonState(__assign(__assign({}, addonState), { loading: loading }));
