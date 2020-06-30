@@ -80,7 +80,7 @@ To do a production build
 npm run build
 ```
 
-To deploy updates to the serverless AWS lambda function that handles fetching data from Google Sheets, make sure you're all set up with Qwilr's AWS credentials on you machine, then run:
+To deploy updates to the serverless AWS lambda function that handles fetching data from Google Sheets, make sure you're all set up with Qwilr's AWS credentials on your machine, then run:
 
 ```
 cd functions && npm run deploy
